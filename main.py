@@ -180,6 +180,17 @@ for col in df.drop(columns=[TARGET_COL]).columns:
         print(f"- {col}: {n_out} outlier")
 print("Outlier tidak dihapus karena belum tentu merupakan kesalahan data.")
 
+# 4.5 Temuan tambahan: korelasi fitur terhadap target
+print("\nKorelasi fitur terhadap Target:")
+print(df.corr()[TARGET_COL].drop(TARGET_COL).sort_values(ascending=False).round(2))
+
+# 4.6 Temuan tambahan: tingkat churn per kategori (data tanpa duplikat)
+df_raw = pd.read_csv(DATA_PATH).drop_duplicates()
+print("\nTingkat churn per kategori:")
+for col in ["FrequentFlyer", "AnnualIncomeClass",
+            "AccountSyncedToSocialMedia", "BookedHotelOrNot"]:
+    print(df_raw.groupby(col)[TARGET_COL].agg(["count", "mean"]).round(3))
+    print()
 
 # BAB V - PEMBAGIAN DATA
 judul("BAB V - PEMBAGIAN DATA")
